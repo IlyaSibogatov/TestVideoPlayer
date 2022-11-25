@@ -37,31 +37,12 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
     val player = viewModel.player
     val visible by viewModel.visible.observeAsState()
 
-    Column {
-        BackButton()
+    Column(
+        modifier = Modifier.background(Color.White)
+    ) {
         VideoPlayer(player, visible!!)
         TextButton(viewModel)
         VideosRow(list, viewModel)
-    }
-}
-
-@Composable
-fun BackButton() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.Top
-    ) {
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                painter = painterResource(
-                    id = R.drawable.ic_arrow_back_24
-                ),
-                contentDescription = "content description"
-            )
-        }
     }
 }
 
