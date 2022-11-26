@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
@@ -26,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.testvideoplayer.R
 import com.example.testvideoplayer.api.model.NewData
 import kotlin.math.roundToInt
 
@@ -48,47 +48,49 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
 
 @Composable
 fun VideoPlayer(player: ExoPlayer, visible: Boolean) {
-    Row(
+    var offsetX by remember { mutableStateOf(0f) }
+    var offsetY by remember { mutableStateOf(0f) }
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .height(300.dp)
+            .padding(25.dp)
+            .clipToBounds()
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            if (visible) {
-                var offsetX by remember { mutableStateOf(0f) }
-                var offsetY by remember { mutableStateOf(0f) }
-                Box(
-                    modifier = Modifier
-                        .zIndex(2f)
-                        .align(alignment = Alignment.Center)
-                        .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
-                        .pointerInput(Unit) {
-                            detectDragGestures { change, dragAmount ->
-                                change.consumeAllChanges()
-                                offsetX += dragAmount.x
-                                offsetY += dragAmount.y
-                            }
-                        },
-                ) {
-                    ChangedTextField()
+        if (visible) {
+            Box(
+                modifier = Modifier
+                    .defaultMinSize()
+                    .zIndex(2f)
+                    .align(alignment = Alignment.Center)
+                    .offset {
+                        IntOffset(
+                            offsetX.roundToInt(),
+                            offsetY.roundToInt()
+                        )
+                    }
+                    .pointerInput(Unit) {
+                        detectDragGestures { change, dragAmount ->
+                            change.consumeAllChanges()
+                            offsetX += dragAmount.x
+                            offsetY += dragAmount.y
+                        }
+                    }
+            ) {
+                ChangedTextField()
+            }
+        }
+        AndroidView(
+            modifier = Modifier
+                .zIndex(1f)
+                .wrapContentSize()
+                .padding(30.dp),
+            factory = { context ->
+                PlayerView(context).apply {
+                    this.player = player
                 }
             }
-            AndroidView(
-                modifier = Modifier
-                    .zIndex(1f)
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(30.dp),
-                factory = { context ->
-                    PlayerView(context).apply {
-                        this.player = player
-                    }
-                }
-            )
-        }
+        )
     }
 }
 
@@ -96,11 +98,17 @@ fun VideoPlayer(player: ExoPlayer, visible: Boolean) {
 fun ChangedTextField() {
     val text = remember { mutableStateOf("test") }
     TextField(
-        value = text.value,
-        onValueChange = { text.value = it },
         modifier = Modifier
             .wrapContentSize(),
-        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center)
+        value = text.value,
+        onValueChange = { text.value = it },
+        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.Transparent,
+            textColor = Color.Green,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        )
     )
 }
 
