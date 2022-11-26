@@ -53,7 +53,7 @@ fun VideoPlayer(player: ExoPlayer, visible: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
+            .wrapContentHeight()
             .padding(25.dp)
             .clipToBounds()
     ) {
@@ -83,8 +83,7 @@ fun VideoPlayer(player: ExoPlayer, visible: Boolean) {
         AndroidView(
             modifier = Modifier
                 .zIndex(1f)
-                .wrapContentSize()
-                .padding(30.dp),
+                .defaultMinSize(),
             factory = { context ->
                 PlayerView(context).apply {
                     this.player = player
