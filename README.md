@@ -1,4 +1,5 @@
 ﻿# TestVideoPlayer
- ![firstvideo](https://user-images.githubusercontent.com/95710591/204088850-12d762e2-4015-40bd-a456-b3e955c90bd9.png)
-![secondvideo](https://user-images.githubusercontent.com/95710591/204088856-b5b0f73c-b10d-434d-b870-cbdb7ca3f33b.png)
-![withtext](https://user-images.githubusercontent.com/95710591/204088791-c5e04da0-fa02-4353-8edc-d834e8ada997.png)
+![first](https://user-images.githubusercontent.com/95710591/204092541-af10581b-fba7-4fb9-b256-2f0feb2db0d4.png)
+![second](https://user-images.githubusercontent.com/95710591/204092544-b8700ac7-26e0-47f1-8531-65edaf2bcc91.png)
+![textclick](https://user-images.githubusercontent.com/95710591/204092551-8ffed7f6-7cd6-4088-94f1-f1262b546230.png)
+![textdispose](https://user-images.githubusercontent.com/95710591/204092560-815ed78d-0899-4c72-a96d-fd793084f1a1.png)
